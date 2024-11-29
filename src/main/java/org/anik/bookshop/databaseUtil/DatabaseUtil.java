@@ -1,42 +1,32 @@
 package org.anik.bookshop.databaseUtil;
 
-import java.io.*;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
 public class DatabaseUtil {
-    private static Connection connection = null;
+
+    private static Properties properties = new Properties();
 
     static {
-        try (
-                InputStream inputStream = DatabaseUtil.class.getClassLoader().getResourceAsStream("db.properties");
-        ) {
+        try (InputStream inputStream = DatabaseUtil.class.getClassLoader().getResourceAsStream("db.properties")) {
             if (inputStream == null) {
-                throw new FileNotFoundException("Property file 'db.properties' not found in the classpath");
+                throw new IllegalArgumentException("Property file 'db.properties' not found in the classpath");
             }
-
-            Properties properties = new Properties();
             properties.load(inputStream);
-
-            String driverClassName = properties.getProperty("driver.class.name");
-            String databaseUrl = properties.getProperty("database.url");
-            String databaseUserName = properties.getProperty("database.username");
-            String databasePassword = properties.getProperty("database.password");
-
-            Class.forName(driverClassName);
-            connection = DriverManager.getConnection(databaseUrl, databaseUserName, databasePassword);
-        } catch (ClassNotFoundException e) {
-            System.err.println("JDBC Driver class not found: " + e.getMessage());
-        } catch (IOException e) {
-            System.err.println("Error loading properties file: " + e.getMessage());
-        } catch (SQLException e) {
-            System.err.println("Error establishing database connection: " + e.getMessage());
+            Class.forName(properties.getProperty("driver.class.name"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error initializing database properties: " + e.getMessage());
         }
     }
 
-    public static Connection getConnection() {
-        return connection;
+    public static Connection getConnection() throws SQLException {
+        String databaseUrl = properties.getProperty("database.url");
+        String databaseUserName = properties.getProperty("database.username");
+        String databasePassword = properties.getProperty("database.password");
+        return DriverManager.getConnection(databaseUrl, databaseUserName, databasePassword);
     }
 }
