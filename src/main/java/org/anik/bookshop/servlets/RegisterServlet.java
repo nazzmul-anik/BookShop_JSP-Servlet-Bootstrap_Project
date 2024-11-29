@@ -2,6 +2,7 @@ package org.anik.bookshop.servlets;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.anik.bookshop.databaseUtil.DatabaseUtil;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,7 +43,7 @@ public class RegisterServlet extends HttpServlet {
             }
 
             try(
-                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bookshop", "root", "root");
+                    Connection connection = DatabaseUtil.getConnection();
                     PreparedStatement preparedStatement = connection.prepareStatement(query);
                     ){
 
