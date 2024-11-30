@@ -49,7 +49,7 @@ public class EditServlet extends HttpServlet {
                 printWriter.println("<td><input type='number' name='bookPrice' value='"+ resultSet.getDouble(3)+"'/></td>");
                 printWriter.println("</tr>");
                 printWriter.println("<tr>");
-                printWriter.println("<td><input type='submit' value='Save'/></td>");
+                printWriter.println("<td><input type='submit' value='Update'/></td>");
                 printWriter.println("<td><input type='reset' value='Cancel'/></td>");
                 printWriter.println("</tr>");
                 printWriter.println("<tr>");
