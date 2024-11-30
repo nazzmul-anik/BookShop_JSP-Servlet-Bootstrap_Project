@@ -29,18 +29,7 @@ public class RegisterServlet extends HttpServlet {
                 PrintWriter printWriter = resp.getWriter()
                 ){
 
-            if(bookName == null || bookName.isEmpty() || bookEdition == null || bookEdition.isEmpty() || !bookPriceStr.matches("\\d+(\\.\\d+)?")){
-                printWriter.println("<h2>Invalid Input Data. Please, fill the form correctly.</h2>");
-                return;
-            }
-
             double bookPrice = Double.parseDouble(bookPriceStr);
-
-            try{
-                Class.forName("com.mysql.cj.jdbc.Driver");
-            }catch (ClassNotFoundException e){
-                throw new RuntimeException("JDBC Driver not found", e);
-            }
 
             try(
                     Connection connection = DatabaseUtil.getConnection();

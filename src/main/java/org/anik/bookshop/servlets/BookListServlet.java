@@ -45,6 +45,8 @@ public class BookListServlet extends HttpServlet {
                 printWriter.println("<th>Book Name</th>");
                 printWriter.println("<th>Book Edition</th>");
                 printWriter.println("<th>Book Price</th>");
+                printWriter.println("<th>Edit</th>");
+                printWriter.println("<th>Delete</th>");
                 printWriter.println("</tr>");
 
                 // Populate table rows with data
@@ -54,6 +56,8 @@ public class BookListServlet extends HttpServlet {
                     printWriter.println("<td>" + resultSet.getString(2) + "</td>");
                     printWriter.println("<td>" + resultSet.getString(3) + "</td>");
                     printWriter.println("<td>" + resultSet.getDouble(4) + "</td>");
+                    printWriter.println("<td><a href='edit?id="+resultSet.getInt(1)+"'>Edit</a></td>");
+                    printWriter.println("<td><a href='delete?id="+resultSet.getInt(1)+"'>Delete</a></td>");
                     printWriter.println("</tr>");
                 }
                 printWriter.println("</table>");
